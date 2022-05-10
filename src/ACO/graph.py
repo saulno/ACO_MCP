@@ -3,7 +3,7 @@ from typing import List
 
 class Graph:
 
-    def __init__(self, random_seed, filename) -> None:
+    def __init__(self, random_seed: int, filename: str) -> None:
         self.adj_mtx, self.edges_dict = parse_graph_file(filename)
         self.number_vertex = len(self.adj_mtx)
 
