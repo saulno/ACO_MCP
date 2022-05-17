@@ -1,5 +1,7 @@
 import random
-from typing import List
+from typing import List, Set
+
+from .utils import matrix_nice_str, parse_graph_file
 
 class Graph:
 
@@ -15,27 +17,8 @@ class Graph:
     def select_random_vertex(self) -> int:
         return random.choice([i for i in range(self.number_vertex)])
 
+    def get_neighbor_candidates(self, v: int) -> Set[int]:
+        return self.edges_dict[v]
+
     def __str__(self) -> str:
-        return str(self.edges_dict)
-
-def parse_graph_file(filename: str) -> List[List[int]]:
-    adj_mtx = []
-    edges_dict = {}
-    with open(filename, 'r') as file:
-        # avoid header
-        file.readline()
-        
-        # dimensions of the graph 
-        [v1, v2, edges] = map(int, file.readline().split(" "))
-        
-        # read edges
-        adj_mtx = [[0 for _ in range(v2)] for _ in range(v1)]
-        edges_dict = {i: set() for i in range(v1)}
-        for _ in range(edges):
-            [i, j] = map(lambda x : int(x)-1, file.readline().split(" "))
-            adj_mtx[i][j] = 1
-            adj_mtx[j][i] = 1
-            edges_dict[i].add(j)
-            edges_dict[j].add(i)
-
-    return adj_mtx, edges_dict
+        return str(matrix_nice_str(self.adj_mtx))
